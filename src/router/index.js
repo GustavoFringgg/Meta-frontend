@@ -10,6 +10,10 @@ const router = createRouter({
       name: 'home',
       component: HomeView,
     },
+    {
+      path: '/register',
+      component: () => import('../views/RegisterView.vue'),
+    },
   ],
 })
 export default router
