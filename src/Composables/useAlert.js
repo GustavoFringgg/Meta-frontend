@@ -6,7 +6,7 @@ export function useAlert() {
       position: 'top',
       title: title,
       icon: icon,
-      timer: 500,
+      timer: 1000,
       toast: true,
       showConfirmButton: false,
       timerProgressBar: true,

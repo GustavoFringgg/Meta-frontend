@@ -1,3 +1,5 @@
+<script setup></script>
+
 <template>
   <!-- Header -->
   <header class="row align-items-center border-bottom border-3 border-dark p-3 bg-white">
@@ -29,7 +31,7 @@
         <!-- Posts -->
         <div class="mb-3">
           <div class="card">
-            <div class="card-body">
+            <div class="card-body border-style">
               <div class="d-flex align-items-center mb-3">
                 <img
                   src="#"

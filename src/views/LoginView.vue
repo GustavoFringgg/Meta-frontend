@@ -1,15 +1,34 @@
 <script setup>
 import { ref } from 'vue'
 import { RouterLink } from 'vue-router'
+import { useRouter } from 'vue-router'
 import { useAlert } from '@/Composables/useAlert'
-
+import axios from 'axios'
 const { showAlert } = useAlert()
 const img = ref(
   'https://firebasestorage.googleapis.com/v0/b/metawall-a2771.appspot.com/o/local%2Fimg.svg?alt=media&token=0cd7e380-7158-4632-9b3c-3f5766bc954c',
 )
+const localurl = 'http://localhost:3000'
+const router = useRouter()
+const sigInToken = ref('')
+const signInField = ref({
+  email: '',
+  password: '',
+})
 
-const click = () => {
-  return showAlert('登入成功', 'success')
+const signIn = async () => {
+  try {
+    const resdata = await axios.post(`${localurl}/auth/sign_In`, signInField.value)
+    console.log('resdata:', resdata)
+
+    sigInToken.value = resdata.data.user.token
+    document.cookie = `Token=${resdata.data.user.token}` //儲存cookie
+    showAlert(`歡迎回來${resdata.data.user.name}`, 'success')
+    router.push({ path: '/index' })
+  } catch (error) {
+    console.log(error)
+    showAlert(`${error.response.data.message}`, 'error')
+  }
 }
 </script>
 
@@ -33,7 +52,7 @@ const click = () => {
                 type="email"
                 id="email"
                 class="form-control"
-                v-model="email"
+                v-model="signInField.email"
                 required
                 placeholder="請輸入email"
               />
@@ -43,14 +62,19 @@ const click = () => {
                 type="password"
                 id="password"
                 class="form-control"
-                v-model="password"
+                v-model="signInField.password"
                 required
                 placeholder="請輸入密碼"
               />
             </div>
           </form>
           <div class="text-center mt-5 mb-5">
-            <RouterLink class="btn btn-primary w-75 mt-2 mb-3" to="/index">登入</RouterLink>
+            <input
+              class="btn btn-primary w-75 mt-2 mb-3"
+              type="button"
+              @click="signIn"
+              value="登入"
+            />
             <RouterLink class="btn btn-primary w-75 mt-2 mb-3" to="/register">註冊</RouterLink>
           </div>
         </div>
