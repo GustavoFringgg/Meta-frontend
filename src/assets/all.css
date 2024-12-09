@@ -108,3 +108,11 @@ video {
   margin: 16px 0 4px 0;
   display: block;
 }
+
+.border-style {
+  border: 3px solid black;
+}
+
+.bg-white {
+  background-color: white;
+}

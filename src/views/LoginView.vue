@@ -50,7 +50,7 @@ const click = () => {
             </div>
           </form>
           <div class="text-center mt-5 mb-5">
-            <button type="submit" class="btn btn-primary w-75 mt-3" @click="click">登入</button>
+            <RouterLink class="btn btn-primary w-75 mt-2 mb-3" to="/index">登入</RouterLink>
             <RouterLink class="btn btn-primary w-75 mt-2 mb-3" to="/register">註冊</RouterLink>
           </div>
         </div>
