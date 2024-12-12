@@ -18,6 +18,10 @@ const router = createRouter({
       path: '/index',
       component: () => import('../views/IndexView.vue'),
     },
+    {
+      path: '/userpost',
+      component: () => import('../views/PostView.vue'),
+    },
   ],
 })
 export default router

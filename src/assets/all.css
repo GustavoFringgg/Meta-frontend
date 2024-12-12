@@ -116,3 +116,17 @@ video {
 .bg-white {
   background-color: white;
 }
+.card {
+  max-width: 600px;
+  margin: 0 auto; /* 置中 */
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.card-header {
+  background-color: #f8f9fa;
+  font-weight: bold;
+}
+.img-fluid {
+  max-height: 300px; /* 限制預覽圖片高度 */
+  object-fit: cover;
+}
