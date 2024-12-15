@@ -13,10 +13,15 @@ const getUserData = ref('') //user 個人資料存取
 const searchPost = ref('') //收尋文章關鍵字存取
 const getUserPost = ref([]) //取的使用者文章
 const isLoading = ref(true) //判斷是否在loding
+const comments = ref([]) // 留言列表
+const newComment = ref('') // 新的留言內容
+
 const getPost = async (timeSort = 'desc') => {
   const res = await axios.get(`${localurl}/posts/`, {
     params: { timeSort, keyword: searchPost.value },
   })
+  comments.value = res.data.message
+  console.log('resdata', comments.value)
 
   getUserPost.value = res.data.message.map((post) => ({
     ...post,
@@ -54,6 +59,35 @@ const signCheck = async () => {
   }
 }
 
+// 提交留言
+const submitComment = async (postId) => {
+  const commentText = {
+    comment: newComment.value,
+  }
+  if (!newComment.value || !newComment.value.trim()) {
+    alert('請輸入留言！')
+    return
+  }
+  try {
+    const res = await axios.post(`${localurl}/posts/${postId}/comment`, commentText, {
+      headers: {
+        Authorization: `Bearer ${signInToken.value}`,
+      },
+    })
+
+    // 將新留言加入到對應的貼文留言列表中
+    // const post = post.value.find((post) => post.id === postId)
+    // if (post) {
+    //   post.comments.push(res.data.comment)
+    // }
+
+    newComment.value = '' // 清空輸入框
+    getPost()
+  } catch (error) {
+    console.error(`留言失敗：`, error)
+  }
+}
+//
 onMounted(async () => {
   try {
     await signCheck()
@@ -120,6 +154,7 @@ onMounted(async () => {
             <!-- Posts -->
             <div class="mb-3" v-for="(post, index) in getUserPost" :key="post._id">
               <div class="card">
+                {{ post._id }}
                 <div class="card-body border-style">
                   <div class="d-flex align-items-center mb-3">
                     <img
@@ -135,6 +170,30 @@ onMounted(async () => {
                   </div>
                   <p>{{ post.content }}</p>
                   <img :src="post.image" class="img-fluid rounded" v-if="post.image" />
+                  <!-- 留言區域 -->
+                  <div class="card-footer">
+                    <div class="mb-3">
+                      <input
+                        type="text"
+                        v-model="newComment"
+                        class="form-control"
+                        placeholder="留言..."
+                      />
+                    </div>
+
+                    <button class="btn btn-primary" @click="submitComment(post._id)">留言</button>
+                    <!-- 顯示留言列表 -->
+                    <ul class="list-group list-group-flush mt-3">
+                      <li
+                        v-for="comment in post.comments"
+                        :key="comment.id"
+                        class="list-group-item"
+                      >
+                        {{ comment.user.name }}<strong>{{ comment.comment }}</strong>
+                        <span class="text-muted"> {{ comment.createdAt }}</span>
+                      </li>
+                    </ul>
+                  </div>
                 </div>
               </div>
             </div>
