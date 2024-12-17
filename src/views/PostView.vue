@@ -1,6 +1,7 @@
 <script setup>
 import axios from 'axios'
 import { computed, nextTick, onMounted, ref } from 'vue'
+import SidebarCard from '@/components/SidebarCard.vue'
 import { useRouter } from 'vue-router'
 import { useAlert } from '@/Composables/useAlert.js'
 const { showAlert } = useAlert()
@@ -163,7 +164,7 @@ signCheck()
       </main>
 
       <!-- Sidebar -->
-      <aside class="col-lg-3">
+      <!-- <aside class="col-lg-3">
         <div class="card">
           <div class="card-body text-center">
             <button class="btn btn-primary w-100 mb-3">張貼動態</button>
@@ -186,7 +187,8 @@ signCheck()
             </div>
           </div>
         </div>
-      </aside>
+      </aside> -->
+      <SidebarCard :getUserData="getUserData"></SidebarCard>
     </div>
   </div>
 </template>

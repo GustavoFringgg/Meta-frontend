@@ -22,7 +22,7 @@ const registerUser = async () => {
   console.log(registerField.value)
   try {
     const res = await axios.post(`${local}/auth/sign_Up`, registerField.value)
-    registerToken.value = res.data.user.token
+    registerToken.value = res.data.data.user.token
     console.log('token', registerToken.value)
     showAlert('註冊成功', 'success')
     router.push({ path: '/' })

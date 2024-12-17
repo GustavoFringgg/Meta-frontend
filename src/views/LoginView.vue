@@ -21,9 +21,9 @@ const signIn = async () => {
     const resdata = await axios.post(`${localurl}/auth/sign_In`, signInField.value)
     console.log('resdata:', resdata)
 
-    sigInToken.value = resdata.data.user.token
-    document.cookie = `Token=${resdata.data.user.token}` //儲存cookie
-    showAlert(`歡迎回來${resdata.data.user.name}`, 'success')
+    sigInToken.value = resdata.data.data.user.token
+    document.cookie = `Token=${resdata.data.data.user.token}` //儲存cookie
+    showAlert(`歡迎回來${resdata.data.data.user.name}`, 'success')
     router.push({ path: '/index' })
   } catch (error) {
     console.log(error)
